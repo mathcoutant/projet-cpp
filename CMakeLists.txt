@@ -16,7 +16,7 @@ set (BUILD_SHARED_LIBS FALSE)
 FetchContent_Declare(
         box2d
         GIT_REPOSITORY  https://github.com/erincatto/Box2d.git
-        GIT_TAG         v2.3.1)
+        GIT_TAG         v2.4.1)
 
 FetchContent_MakeAvailable(box2d)
 
