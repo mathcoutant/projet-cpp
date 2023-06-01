@@ -4,8 +4,18 @@
 
 #include "myMain.h"
 #include <SFML/Graphics.hpp>
+#include <tmxlite/Map.hpp>
+#include "SFMLOrthogonalLayer.h"
 
 int myMain() {
+
+    tmx::Map map;
+    map.load("resources/demo.tmx");
+
+    MapLayer layerZero(map,0);
+    MapLayer layerOne(map,1);
+    MapLayer layerTwo(map,2);
+
     sf::RenderWindow window(sf::VideoMode(1000,1000),"projet cpp");
     window.setFramerateLimit(60);
 
@@ -18,6 +28,9 @@ int myMain() {
         }
 
         window.clear(sf::Color::White);
+        window.draw(layerZero);
+        window.draw(layerOne);
+        window.draw(layerTwo);
         window.display();
         sf::sleep(sf::milliseconds(17));
     }
