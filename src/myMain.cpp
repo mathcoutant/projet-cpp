@@ -4,7 +4,6 @@
 
 #include "myMain.h"
 #include <SFML/Graphics.hpp>
-#include <tmxlite/Map.hpp>
 #include "SFMLOrthogonalLayer.h"
 
 int myMain() {
