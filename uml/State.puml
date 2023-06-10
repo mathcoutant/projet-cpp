@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+
+[*] --> Idle
+Idle --> Move : arrow keys
+Idle --> Dig : dig key[player near tomb]
+Move --> Dig : dig key[player near tomb]
+Idle --> Hit : hit
+Move --> Hit : hit
+Dig --> Hit : hit
+Hit --> Idle : timer
+Dig --> Idle : end or cancel digging
+
+state Idle
+state Move
+state Hit
+state Dig
+@enduml

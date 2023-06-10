@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Game {
+-handleInput()
+-update()
+-render()
++run()
+}
+
+class Entity {
+-position
+
+}
+
+class Enemy {
+}
+
+class Player {
+-state
+}
+
+abstract State{
++enter()
++update()
++exit()
+}
+
+class IdleState
+class MoveState
+class DigState
+class HitState
+
+
+
+State <|-- IdleState
+State <|-- MoveState
+State <|-- DigState
+State <|-- HitState
+
+class Tilemap{
+    +Tilemap(string file)
+    +update() //pour animer les tiles
+}
+
+Entity <|-- Player
+Entity <|-- Enemy
+@enduml
