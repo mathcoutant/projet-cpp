@@ -6,9 +6,10 @@
 #include "SFML/System/Clock.hpp"
 #include "SFML/System/Sleep.hpp"
 
-Game::Game(){
+Game::Game() {
     window.setFramerateLimit(60);
-    player.setFillColor(sf::Color::Red);
+    window.setVerticalSyncEnabled(true);
+    player.setSpeed(500.f);
 }
 
 void Game::run() {
@@ -18,7 +19,7 @@ void Game::run() {
     while (window.isOpen()) {
         handleEvent();
         timeAfterLastUpdate += clock.restart();
-        while (timeAfterLastUpdate > timePerFrame){
+        while (timeAfterLastUpdate > timePerFrame) {
             timeAfterLastUpdate -= timePerFrame;
             handleEvent();
             update(timePerFrame);
@@ -32,14 +33,24 @@ void Game::run() {
 void Game::handleEvent() {
     sf::Event event;
     while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-            window.close();
+        switch (event.type) {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            case sf::Event::KeyPressed:
+                player.handleInput(event.key.code, true);
+                break;
+            case sf::Event::KeyReleased:
+                player.handleInput(event.key.code, false);
+                break;
+            default:
+                break;
         }
     }
 }
 
 void Game::update(sf::Time deltaTime) {
-    // update ne fait rien pour l'instant, car on a rien à update
+    player.update(deltaTime);
 }
 
 void Game::render() {

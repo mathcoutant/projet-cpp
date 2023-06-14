@@ -5,11 +5,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Player.h"
 
 class Game {
     sf::Time timePerFrame = sf::seconds(1.f/60.f);
     sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(1920,1080),"projet cpp",sf::Style::Fullscreen);
-    sf::CircleShape player = sf::CircleShape(100);
+    Player player;
 
     void update(sf::Time deltaTime);
     void render();
