@@ -14,14 +14,7 @@ void Entity::update(sf::Time deltaTime) {
     sprite.setPosition(getPosition());
 }
 
-sf::Vector2f Entity::normalize(sf::Vector2f v) const {
-    float norme = std::sqrt(v.x * v.x + v.y * v.y);
-    if (norme != 0) return (v / norme);
-    return v;
-}
-
-Entity::Entity() {
-}
+Entity::Entity() = default;
 
 void Entity::setSpeed(float speed) {
     this->speed = speed;

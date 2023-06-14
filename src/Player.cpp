@@ -43,22 +43,18 @@ void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
     if(isMovingDown)
         moveDirection.y += 1.f;
 
-    if(moveDirection != sf::Vector2f (0.f,0.f))
-        moveDirection /= std::sqrt(moveDirection.x*moveDirection.x + moveDirection.y*moveDirection.y);
-
-    setVelocity(moveDirection);
+    setVelocity(physics::normalize(moveDirection));
 }
 
 void Player::createBody(b2World& world){
     b2BodyDef bodyDef;
     bodyDef.position      = b2Vec2(0.f, 0.f);
-    bodyDef.angle         = 0.f;
-    bodyDef.allowSleep    = false;
+    bodyDef.allowSleep    = true;
     bodyDef.fixedRotation = true;
-    bodyDef.gravityScale  = 1.f;
     bodyDef.type          = b2_dynamicBody;
     //create a box shape
     b2PolygonShape boxShape;
+
 
     boxShape.SetAsBox(boundingBox.width /(2*physics::SCALE), boundingBox.height /(2*physics::SCALE));
     //create a fixture and provide the shape to the body

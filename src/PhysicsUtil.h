@@ -23,4 +23,16 @@ namespace physics {
     inline sf::Vector2f b2Tosf(b2Vec2 v){
         return {v.x * SCALE, v.y * SCALE};
     }
+
+    inline sf::Vector2f normalize(sf::Vector2f v){
+        float norm = std::sqrt(v.x * v.x + v.y * v.y);
+        if (norm != 0) return (v / norm);
+        return v;
+    }
+
+    inline b2Vec2 normalize(b2Vec2 v){
+        float norm = std::sqrt(v.x * v.x + v.y * v.y);
+        if (norm != 0) return {v.x/norm, v.y/norm};
+        return v;
+    }
 }
