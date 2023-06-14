@@ -27,7 +27,9 @@ void DebugB2Draw::DrawSolidPolygon(const b2Vec2 *vertices, int32 vertexCount, co
         b2Vec2 vertex = vertices[i];
         polygon.setPoint(i,physics::b2Tosf(vertex));
     }
-    polygon.setFillColor(sf::Color::Green);
+    polygon.setFillColor(sf::Color::Transparent);
+    polygon.setOutlineColor(sf::Color::Green);
+    polygon.setOutlineThickness(1.f);
     window->draw(polygon);
 }
 

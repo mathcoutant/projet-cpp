@@ -23,9 +23,8 @@ sf::Vector2f Entity::normalize(sf::Vector2f v) const {
 Entity::Entity() {
     texture.loadFromFile("resources/images/tilemap/test_texture.png");
     sprite.setTexture(texture);
-    sprite.scale(0.5f,0.5f);
-    boundingBox = sprite.getGlobalBounds();
-    sprite.setOrigin(boundingBox.width,boundingBox.height);
+    boundingBox = sprite.getLocalBounds();
+    sprite.setOrigin(boundingBox.width/2,boundingBox.height/2);
 }
 
 void Entity::setSpeed(float speed) {

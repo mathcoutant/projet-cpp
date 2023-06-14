@@ -52,7 +52,7 @@ void Player::createBody(b2World& world){
     //create a box shape
     b2PolygonShape boxShape;
 
-    boxShape.SetAsBox(boundingBox.width / physics::SCALE, boundingBox.height / physics::SCALE);
+    boxShape.SetAsBox(boundingBox.width /(2*physics::SCALE), boundingBox.height /(2*physics::SCALE));
     //create a fixture and provide the shape to the body
     b2FixtureDef fixtureDef;
     fixtureDef.shape        = &boxShape;
