@@ -38,7 +38,7 @@ Game::Game() : debugB2Draw(window) {
     fixtureDef.restitution  = 0.1f;
     body->CreateFixture(&fixtureDef);
 
-    debugB2Draw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit);   // | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
+    debugB2Draw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
     world.SetDebugDraw(&debugB2Draw);
     enemy.setSpeed(100.f);
 }
