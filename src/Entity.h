@@ -13,11 +13,12 @@
 #include "SFML/System/Time.hpp"
 
 class Entity : public sf::Drawable, public sf::Transformable {
-    sf::Sprite sprite;
-    sf::Texture texture;
     float speed;
 
+    sf::Vector2f normalize(sf::Vector2f v) const;
 protected:
+    sf::Sprite sprite;
+    sf::Texture texture;
     sf::Vector2f moveDirection = sf::Vector2f(0.f,0.f);
 
     void draw(sf::RenderTarget& target, sf::RenderStates states)const override;

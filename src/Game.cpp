@@ -10,6 +10,8 @@ Game::Game() {
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
     player.setSpeed(500.f);
+    enemy.setSpeed(100.f);
+    enemy.setScale(0.5f, 0.5f);
 }
 
 void Game::run() {
@@ -51,10 +53,12 @@ void Game::handleEvent() {
 
 void Game::update(sf::Time deltaTime) {
     player.update(deltaTime);
+    enemy.update(deltaTime);
 }
 
 void Game::render() {
     window.clear(sf::Color::White);
     window.draw(player);
+    window.draw(enemy);
     window.display();
 }

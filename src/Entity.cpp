@@ -4,13 +4,20 @@
 
 #include "Entity.h"
 #include <SFML/Graphics/Texture.hpp>
+#include <cmath>
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(sprite, states);
 }
 void Entity::update(sf::Time deltaTime) {
-    move(moveDirection * speed * deltaTime.asSeconds());
+    move(normalize(moveDirection) * speed * deltaTime.asSeconds());
     sprite.setPosition(getPosition());
+}
+
+sf::Vector2f Entity::normalize(sf::Vector2f v) const {
+    float norme = std::sqrt(v.x * v.x + v.y * v.y);
+    if (norme != 0) return (v / norme);
+    return v;
 }
 
 Entity::Entity() {
