@@ -4,8 +4,7 @@
 
 #include "Player.h"
 
-Player::Player() : Entity() {
-}
+Player::Player() : Entity() {}
 
 void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
     switch (key) {
@@ -24,18 +23,47 @@ void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
         default:
             break;
     }
-}
 
-void Player::update(sf::Time deltaTime) {
-    moveDirection = sf::Vector2f(0.f,0.f);
-    if(isMovingUp)
-        moveDirection.y -= 1.f;
-    if(isMovingDown)
-        moveDirection.y += 1.f;
+    moveDirection = sf::Vector2f (0.f,0.f);
+
     if(isMovingLeft)
         moveDirection.x -= 1.f;
     if(isMovingRight)
         moveDirection.x += 1.f;
+    if(isMovingUp)
+        moveDirection.y -= 1.f;
+    if(isMovingDown)
+        moveDirection.y += 1.f;
 
+    if(moveDirection != sf::Vector2f (0.f,0.f))
+        moveDirection /= std::sqrt(moveDirection.x*moveDirection.x + moveDirection.y*moveDirection.y);
+
+    setVelocity(moveDirection);
+}
+
+void Player::createBody(b2World& world){
+    b2BodyDef bodyDef;
+    bodyDef.position      = b2Vec2(0.f, 0.f);
+    bodyDef.angle         = 0.f;
+    bodyDef.allowSleep    = false;
+    bodyDef.fixedRotation = true;
+    bodyDef.gravityScale  = 1.f;
+    bodyDef.type          = b2_dynamicBody;
+    //create a box shape
+    b2PolygonShape boxShape;
+
+    boxShape.SetAsBox(boundingBox.width / physics::SCALE, boundingBox.height / physics::SCALE);
+    //create a fixture and provide the shape to the body
+    b2FixtureDef fixtureDef;
+    fixtureDef.shape        = &boxShape;
+    fixtureDef.isSensor     = false;
+    fixtureDef.density      = 50.f;
+    fixtureDef.friction     = 0.1f;
+    fixtureDef.restitution  = 0.0f;
+    Entity::createBody(bodyDef,world,fixtureDef);
+}
+
+void Player::update(sf::Time deltaTime) {
+    moveDirection = sf::Vector2f (0.f,0.f);
     Entity::update(deltaTime);
 }

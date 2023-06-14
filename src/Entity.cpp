@@ -10,7 +10,7 @@ void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(sprite, states);
 }
 void Entity::update(sf::Time deltaTime) {
-    move(normalize(moveDirection) * speed * deltaTime.asSeconds());
+    setPosition(physics::b2Tosf(body->GetPosition()));
     sprite.setPosition(getPosition());
 }
 
@@ -23,10 +23,22 @@ sf::Vector2f Entity::normalize(sf::Vector2f v) const {
 Entity::Entity() {
     texture.loadFromFile("resources/images/tilemap/test_texture.png");
     sprite.setTexture(texture);
+    sprite.scale(0.5f,0.5f);
+    boundingBox = sprite.getGlobalBounds();
+    sprite.setOrigin(boundingBox.width,boundingBox.height);
 }
 
 void Entity::setSpeed(float speed) {
     this->speed = speed;
+}
+
+void Entity::createBody(b2BodyDef &bodyDef, b2World& world, b2FixtureDef& fixtureDef) {
+    body = world.CreateBody(&bodyDef);
+    body->CreateFixture(&fixtureDef);
+}
+
+void Entity::setVelocity(sf::Vector2f v) {
+    body->SetLinearVelocity(physics::sfTob2(v * speed));
 }
 
 Entity::~Entity() = default;
