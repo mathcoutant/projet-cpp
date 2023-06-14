@@ -4,7 +4,6 @@
 
 #include "Entity.h"
 #include <SFML/Graphics/Texture.hpp>
-#include <cmath>
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(sprite, states);

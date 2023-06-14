@@ -3,7 +3,6 @@
 //
 
 #include "Player.h"
-#include <cmath>
 
 Player::Player() : Entity() {
     texture.loadFromFile("resources/images/tilemap/raider.png");
