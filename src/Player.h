@@ -15,7 +15,10 @@ class Player : public Entity {
     bool isMovingRight = false;
 public:
     explicit Player();
-    void createBody(b2World& world);
+
+    void createBody(b2World &world);
+
     void handleInput(sf::Keyboard::Key key, bool isPressed);
+
     void update(sf::Time deltaTime) override;
 };

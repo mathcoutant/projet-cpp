@@ -11,17 +11,20 @@
 #include <vector>
 
 class Game {
-    b2World world = b2World(b2Vec2(b2Vec2_zero));
-    sf::Time timePerFrame = sf::seconds(1.f/60.f);
-    sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(1920,1080),"projet cpp",sf::Style::Fullscreen);
+    sf::Time timePerFrame = sf::seconds(1.f / 60.f);
+    sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(1920, 1080), "projet cpp", sf::Style::Fullscreen);
     Player player;
     Enemy enemy = Enemy(player);
     DebugB2Draw debugB2Draw;
 
     void update(sf::Time deltaTime);
+
     void render();
+
     void handleEvent();
+
 public:
     void run();
+
     Game();
 };

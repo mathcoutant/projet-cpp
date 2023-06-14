@@ -4,42 +4,38 @@
 
 #include "Game.h"
 #include "SFML/System/Clock.hpp"
-#include "SFML/System/Sleep.hpp"
+#include "PhysicWorld.h"
 
 Game::Game() : debugB2Draw(window) {
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
     player.setSpeed(500.f);
 
-
-
-    player.createBody(world);
-    enemy.createBody(world);
-
-    b2Body* body;
+    b2Body *body;
     b2BodyDef bodyDef;
-    bodyDef.position      = physics::sfTob2(sf::Vector2f(500.f,500.f));
-    bodyDef.angle         = 0.f;
-    bodyDef.allowSleep    = true;
+    bodyDef.position = physics::sfTob2(sf::Vector2f(500.f, 500.f));
+    bodyDef.angle = 0.f;
+    bodyDef.allowSleep = true;
     bodyDef.fixedRotation = false;
-    bodyDef.gravityScale  = 1.f;
-    bodyDef.type          = b2_staticBody;
-    body = world.CreateBody(&bodyDef);
+    bodyDef.gravityScale = 1.f;
+    bodyDef.type = b2_staticBody;
+    body = PhysicWorld::GetInstance()->CreateBody(&bodyDef);
 
     b2PolygonShape boxShape;
 
     boxShape.SetAsBox(20.f / physics::SCALE, 500.f / physics::SCALE);
     //create a fixture and provide the shape to the body
     b2FixtureDef fixtureDef;
-    fixtureDef.shape        = &boxShape;
-    fixtureDef.isSensor     = false;
-    fixtureDef.density      = 1.f;
-    fixtureDef.friction     = 0.1f;
-    fixtureDef.restitution  = 0.1f;
+    fixtureDef.shape = &boxShape;
+    fixtureDef.isSensor = false;
+    fixtureDef.density = 1.f;
+    fixtureDef.friction = 0.1f;
+    fixtureDef.restitution = 0.1f;
     body->CreateFixture(&fixtureDef);
 
-    debugB2Draw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
-    world.SetDebugDraw(&debugB2Draw);
+    debugB2Draw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit |
+                         b2Draw::e_centerOfMassBit);
+    PhysicWorld::GetInstance()->SetDebugDraw(&debugB2Draw);
     enemy.setSpeed(100.f);
 }
 
@@ -81,7 +77,7 @@ void Game::handleEvent() {
 }
 
 void Game::update(sf::Time deltaTime) {
-    world.Step(timePerFrame.asSeconds(),6,2);
+    PhysicWorld::GetInstance()->Step(timePerFrame.asSeconds(), 6, 2);
     player.update(deltaTime);
     enemy.update(deltaTime);
 }
@@ -90,6 +86,6 @@ void Game::render() {
     window.clear(sf::Color::White);
     window.draw(player);
     window.draw(enemy);
-    world.DebugDraw();
+    PhysicWorld::GetInstance()->DebugDraw();
     window.display();
 }

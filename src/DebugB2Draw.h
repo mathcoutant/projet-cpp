@@ -9,9 +9,10 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 
 class DebugB2Draw : public b2Draw {
-    sf::RenderWindow* window;
+    sf::RenderWindow *window;
 public:
     explicit DebugB2Draw(sf::RenderWindow &window);
+
     ~DebugB2Draw() override;
 
     void DrawPolygon(const b2Vec2 *vertices, int32 vertexCount, const b2Color &color) override;
