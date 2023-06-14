@@ -5,6 +5,8 @@
 #include "Player.h"
 
 Player::Player() : Entity() {
+    state = std::make_unique<MoveState>(MoveState());
+
     texture.loadFromFile("resources/images/tilemap/raider.png");
     sprite.setTexture(texture);
     sprite.setScale(4.f, 4.f);
@@ -30,42 +32,16 @@ Player::Player() : Entity() {
     fixtureDef.friction = 0.1f;
     fixtureDef.restitution = 0.0f;
     Entity::createBody(bodyDef, fixtureDef);
+
 }
 
 void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
-    switch (key) {
-        case sf::Keyboard::Left:
-            isMovingLeft = isPressed;
-            break;
-        case sf::Keyboard::Right:
-            isMovingRight = isPressed;
-            break;
-        case sf::Keyboard::Up:
-            isMovingUp = isPressed;
-            break;
-        case sf::Keyboard::Down:
-            isMovingDown = isPressed;
-            break;
-        default:
-            break;
-    }
-
-    moveDirection = sf::Vector2f(0.f, 0.f);
-
-    if (isMovingLeft)
-        moveDirection.x -= 1.f;
-    if (isMovingRight)
-        moveDirection.x += 1.f;
-    if (isMovingUp)
-        moveDirection.y -= 1.f;
-    if (isMovingDown)
-        moveDirection.y += 1.f;
-
-    setVelocity(physics::normalize(moveDirection));
+    state->handleInput(*this,key,isPressed);
 }
 
 
 void Player::update(sf::Time deltaTime) {
-    moveDirection = sf::Vector2f(0.f, 0.f);
+    if (std::unique_ptr<PlayerState> nextState = state->update(*this, deltaTime); nextState)
+        state.swap(nextState);
     Entity::update(deltaTime);
 }
