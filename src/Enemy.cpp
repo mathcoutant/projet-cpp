@@ -1,6 +1,12 @@
 #include "Enemy.h"
 
 Enemy::Enemy(Player& p) : Entity(), player(p) {
+    texture.loadFromFile("resources/images/tilemap/fantome.png");
+    sprite.setTexture(texture);
+    sprite.setScale(4.f, 4.f);
+    boundingBox = sprite.getGlobalBounds();
+    sf::FloatRect localBoundingBox = sprite.getLocalBounds();
+    sprite.setOrigin(localBoundingBox.width / 2, localBoundingBox.height / 2);
 }
 
 void Enemy::update(sf::Time deltaTime) {

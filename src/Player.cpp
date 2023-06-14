@@ -3,8 +3,16 @@
 //
 
 #include "Player.h"
+#include <cmath>
 
-Player::Player() : Entity() {}
+Player::Player() : Entity() {
+    texture.loadFromFile("resources/images/tilemap/raider.png");
+    sprite.setTexture(texture);
+    sprite.setScale(4.f, 4.f);
+    boundingBox = sprite.getGlobalBounds();
+    sf::FloatRect localBoundingBox = sprite.getLocalBounds();
+    sprite.setOrigin(localBoundingBox.width / 2, localBoundingBox.height / 2);
+}
 
 void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
     switch (key) {

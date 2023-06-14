@@ -41,7 +41,6 @@ Game::Game() : debugB2Draw(window) {
     debugB2Draw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit);   // | b2Draw::e_pairBit | b2Draw::e_centerOfMassBit);
     world.SetDebugDraw(&debugB2Draw);
     enemy.setSpeed(100.f);
-    enemy.setScale(0.5f, 0.5f);
 }
 
 void Game::run() {
