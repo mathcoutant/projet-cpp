@@ -16,7 +16,7 @@
 
 class Entity : public sf::Drawable, public sf::Transformable {
     float speed;
-    b2Body *body;
+    std::unique_ptr<b2Body,physics::b2BodyDeleter> body;
 
 protected:
     sf::Sprite sprite;
@@ -24,8 +24,6 @@ protected:
     sf::Vector2f moveDirection = sf::Vector2f(0.f, 0.f);
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-
-    void setVelocity(sf::Vector2f v);
 
 public:
     ~Entity() override;
@@ -37,4 +35,6 @@ public:
     virtual void update(sf::Time deltaTime);
 
     virtual void createBody(b2BodyDef &bodyDef, b2FixtureDef &fixtureDef);
+
+    void setVelocity(sf::Vector2f v);
 };

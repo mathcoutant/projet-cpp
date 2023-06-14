@@ -22,7 +22,7 @@ void Entity::setSpeed(float speed) {
 }
 
 void Entity::createBody(b2BodyDef &bodyDef, b2FixtureDef &fixtureDef) {
-    body = PhysicWorld::GetInstance()->CreateBody(&bodyDef);
+    body = std::unique_ptr<b2Body,physics::b2BodyDeleter>(PhysicWorld::GetInstance()->CreateBody(&bodyDef));
     body->CreateFixture(&fixtureDef);
 }
 
