@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "SFML/System/Clock.hpp"
 #include "PhysicWorld.h"
+#include "ContactListener.h"
 
 Game::Game() : debugB2Draw(window) {
     window.setFramerateLimit(60);
@@ -37,6 +38,9 @@ Game::Game() : debugB2Draw(window) {
                          b2Draw::e_centerOfMassBit);
     PhysicWorld::GetInstance()->SetDebugDraw(&debugB2Draw);
     enemy.setSpeed(100.f);
+
+    ContactListener* contactListener = new ContactListener();
+    PhysicWorld::GetInstance()->SetContactListener(contactListener);
 }
 
 void Game::run() {

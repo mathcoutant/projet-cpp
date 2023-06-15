@@ -1,9 +1,4 @@
-//
-// Created by leo on 14/06/23.
-//
-
 #pragma once
-
 
 #include "Entity.h"
 #include "SFML/Window/Keyboard.hpp"
@@ -12,10 +7,11 @@
 
 class Player : public Entity {
     std::unique_ptr<PlayerState> state;
+    int health = 10;
 public:
     explicit Player();
 
     void handleInput(sf::Keyboard::Key key, bool isPressed);
-
+    void takeDamage();
     void update(sf::Time deltaTime) override;
 };

@@ -1,8 +1,6 @@
-//
-// Created by leo on 14/06/23.
-//
-
 #include "Player.h"
+#include <iostream>
+#include "Link.h"
 
 Player::Player() : Entity() {
     state = std::make_unique<MoveState>(MoveState());
@@ -31,17 +29,26 @@ Player::Player() : Entity() {
     fixtureDef.density = 50.f;
     fixtureDef.friction = 0.1f;
     fixtureDef.restitution = 0.0f;
-    Entity::createBody(bodyDef, fixtureDef);
 
+    body = std::unique_ptr<b2Body, physics::b2BodyDeleter>(PhysicWorld::GetInstance()->CreateBody(&bodyDef));
+    body->CreateFixture(&fixtureDef);
+    body->GetUserData().pointer = (uintptr_t)new Link(0, this);
 }
 
 void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
     state->handleInput(*this,key,isPressed);
 }
 
-
 void Player::update(sf::Time deltaTime) {
     if (std::unique_ptr<PlayerState> nextState = state->update(*this, deltaTime); nextState)
         state.swap(nextState);
     Entity::update(deltaTime);
+}
+
+void Player::takeDamage() {
+    health--;
+    if (health <= 0) {
+        health = 0;
+        std::cout << "Your dead !\n";
+    }
 }
