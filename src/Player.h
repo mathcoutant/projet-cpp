@@ -7,8 +7,9 @@
 
 class Player : public Entity {
     std::unique_ptr<PlayerState> state;
-    int health = 10;
 public:
+    int health = 3;
+
     explicit Player();
 
     void handleInput(sf::Keyboard::Key key, bool isPressed);

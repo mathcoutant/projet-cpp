@@ -1,3 +1,4 @@
+#include "Game.h"
 //
 // Created by leo on 10/06/23.
 //
@@ -42,6 +43,11 @@ Game::Game() : debugB2Draw(window) {
 
     ContactListener* contactListener = new ContactListener();
     PhysicWorld::GetInstance()->SetContactListener(contactListener);
+
+    hBarBG.setFillColor(sf::Color(0, 0, 0));
+    hBar.setFillColor(sf::Color(255, 0, 0));
+
+    hBarBG.setPosition((window.getSize().x - hBarBG.getSize().x) / 2, window.getSize().y - 100);
 }
 
 void Game::run() {
@@ -90,6 +96,20 @@ void Game::render() {
     window.clear(sf::Color::White);
     window.draw(*player);
     window.draw(*enemy);
+    renderHBar();
     PhysicWorld::GetInstance()->DebugDraw();
     window.display();
+}
+
+void Game::renderHBar() {
+    if (player->health == 0) {
+        hBar.setSize(sf::Vector2f(0, 50));
+    }
+    else {
+        hBar.setSize(sf::Vector2f(500.f * (player->health / 3.f), 50));
+    }
+    hBar.setPosition((window.getSize().x - hBarBG.getSize().x) / 2, window.getSize().y - 100);
+
+    window.draw(hBarBG);
+    window.draw(hBar);
 }

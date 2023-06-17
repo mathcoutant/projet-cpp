@@ -17,9 +17,13 @@ class Game {
     std::unique_ptr<Enemy> enemy = std::unique_ptr<Enemy>(new Enemy(*player));
     DebugB2Draw debugB2Draw;
 
+    sf::RectangleShape hBarBG = sf::RectangleShape(sf::Vector2f(500, 50));
+    sf::RectangleShape hBar = sf::RectangleShape(sf::Vector2f(500, 50));;
+
     void update(sf::Time deltaTime);
 
     void render();
+    void renderHBar();
 
     void handleEvent();
 
