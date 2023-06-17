@@ -1,10 +1,9 @@
 #include "Player.h"
 #include <iostream>
-#include "Link.h"
 
 Player::Player() : Entity() {
+    type = EntityType::PLAYER;
     state = std::make_unique<MoveState>(MoveState());
-
     texture.loadFromFile("resources/images/tilemap/raider.png");
     sprite.setTexture(texture);
     sprite.setScale(4.f, 4.f);
@@ -32,7 +31,7 @@ Player::Player() : Entity() {
 
     body = std::unique_ptr<b2Body, physics::b2BodyDeleter>(PhysicWorld::GetInstance()->CreateBody(&bodyDef));
     body->CreateFixture(&fixtureDef);
-    body->GetUserData().pointer = (uintptr_t)new Link(0, this);
+    body->GetUserData().pointer = (uintptr_t) this;
 }
 
 void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
@@ -45,7 +44,8 @@ void Player::update(sf::Time deltaTime) {
     Entity::update(deltaTime);
 }
 
-void Player::takeDamage() {
+void Player::takeDamage(){
+    std::cout << health <<"\n";
     health--;
     if (health <= 0) {
         health = 0;

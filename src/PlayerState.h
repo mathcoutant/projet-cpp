@@ -17,3 +17,4 @@ public:
     virtual void handleInput(Player& player, sf::Keyboard::Key key, bool isPressed) = 0;
     virtual std::unique_ptr<PlayerState> update(Player& player, sf::Time deltaTime) = 0;
 };
+

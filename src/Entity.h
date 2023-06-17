@@ -12,10 +12,13 @@
 #include "PhysicWorld.h"
 
 
+enum class EntityType {PLAYER, ENEMY};
+
 class Entity : public sf::Drawable, public sf::Transformable {
     float speed;
 
 protected:
+
     sf::Sprite sprite;
     sf::Texture texture;
     sf::Vector2f moveDirection = sf::Vector2f(0.f, 0.f);
@@ -24,6 +27,7 @@ protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public:
+    EntityType type;
     ~Entity() override;
 
     Entity();

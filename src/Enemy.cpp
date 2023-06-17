@@ -1,7 +1,7 @@
 #include "Enemy.h"
-#include "Link.h"
 
 Enemy::Enemy(Player &p) : Entity(), player(p) {
+    type = EntityType::ENEMY;
     texture.loadFromFile("resources/images/tilemap/fantome.png");
     sprite.setTexture(texture);
     sprite.setScale(4.f, 4.f);
@@ -27,7 +27,7 @@ Enemy::Enemy(Player &p) : Entity(), player(p) {
 
     body = std::unique_ptr<b2Body, physics::b2BodyDeleter>(PhysicWorld::GetInstance()->CreateBody(&bodyDef));
     body->CreateFixture(&fixtureDef);
-    body->GetUserData().pointer = (uintptr_t)new Link(1, this);
+    body->GetUserData().pointer = reinterpret_cast<uintptr_t>(this);
 }
 
 void Enemy::update(sf::Time deltaTime) {

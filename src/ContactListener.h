@@ -2,7 +2,6 @@
 
 #include <box2d/b2_world_callbacks.h>
 #include <box2d/b2_contact.h>
-#include "Link.h"
 
 class ContactListener : public b2ContactListener
 {

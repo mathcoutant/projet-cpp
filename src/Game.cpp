@@ -2,6 +2,7 @@
 // Created by leo on 10/06/23.
 //
 
+#include <iostream>
 #include "Game.h"
 #include "SFML/System/Clock.hpp"
 #include "PhysicWorld.h"
@@ -10,7 +11,7 @@
 Game::Game() : debugB2Draw(window) {
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
-    player.setSpeed(500.f);
+    player->setSpeed(500.f);
 
     b2Body *body;
     b2BodyDef bodyDef;
@@ -37,7 +38,7 @@ Game::Game() : debugB2Draw(window) {
     debugB2Draw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit |
                          b2Draw::e_centerOfMassBit);
     PhysicWorld::GetInstance()->SetDebugDraw(&debugB2Draw);
-    enemy.setSpeed(100.f);
+    enemy->setSpeed(100.f);
 
     ContactListener* contactListener = new ContactListener();
     PhysicWorld::GetInstance()->SetContactListener(contactListener);
@@ -69,10 +70,10 @@ void Game::handleEvent() {
                 window.close();
                 break;
             case sf::Event::KeyPressed:
-                player.handleInput(event.key.code, true);
+                player->handleInput(event.key.code, true);
                 break;
             case sf::Event::KeyReleased:
-                player.handleInput(event.key.code, false);
+                player->handleInput(event.key.code, false);
                 break;
             default:
                 break;
@@ -82,14 +83,13 @@ void Game::handleEvent() {
 
 void Game::update(sf::Time deltaTime) {
     PhysicWorld::GetInstance()->Step(timePerFrame.asSeconds(), 6, 2);
-    player.update(deltaTime);
-    enemy.update(deltaTime);
-}
+    player->update(deltaTime);
+    enemy->update(deltaTime);}
 
 void Game::render() {
     window.clear(sf::Color::White);
-    window.draw(player);
-    window.draw(enemy);
+    window.draw(*player);
+    window.draw(*enemy);
     PhysicWorld::GetInstance()->DebugDraw();
     window.display();
 }
