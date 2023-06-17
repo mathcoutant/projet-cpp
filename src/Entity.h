@@ -12,7 +12,9 @@
 #include "PhysicWorld.h"
 
 
-enum class EntityType {PLAYER, ENEMY};
+enum class EntityType {
+    PLAYER, ENEMY, GRAVE, COIN
+};
 
 class Entity : public sf::Drawable, public sf::Transformable {
     float speed;
@@ -27,9 +29,12 @@ protected:
 
 public:
     EntityType type;
+
     ~Entity() override;
 
     Entity();
+
+    Entity(const sf::Texture &texture, float x, float y);
 
     void setSpeed(float speed);
 

@@ -13,9 +13,9 @@ class Player;
 
 class MoveState : public PlayerState {
 public:
-    void handleInput(Player& player, sf::Keyboard::Key key, bool isPressed) override;
+    void handleInput(Player &player, sf::Keyboard::Key key, bool isPressed) override;
 
-    std::unique_ptr<PlayerState> update(Player& player, sf::Time deltaTime) override;
+    PlayerState *update(Player &player, sf::Time deltaTime) override;
 
     ~MoveState() override = default;
 

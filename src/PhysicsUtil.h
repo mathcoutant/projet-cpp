@@ -30,7 +30,7 @@ namespace physics {
     }
 
     inline sf::Color b2Tosf(b2Color c) {
-        return sf::Color(c.r * 255, c.g * 255, c.b * 255, c.a * 255);
+        return {c.r * 255, c.g * 255, c.b * 255, c.a * 255};
     }
 
     inline b2Vec2 sfTob2(sf::Vector2f v) {

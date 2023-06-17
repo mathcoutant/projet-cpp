@@ -9,9 +9,12 @@
 #include "Grave.h"
 
 class DigState : public PlayerState {
+private:
+    Grave *grave;
 public:
-    explicit DigState(const Grave& grave);
+    explicit DigState(Grave *grave);
+
     void handleInput(Player &player, sf::Keyboard::Key key, bool isPressed) override;
 
-    std::unique_ptr<PlayerState> update(Player &player, sf::Time deltaTime) override;
+    PlayerState *update(Player &player, sf::Time deltaTime) override;
 };

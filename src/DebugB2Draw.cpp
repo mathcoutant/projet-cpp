@@ -41,13 +41,13 @@ void DebugB2Draw::DrawSolidCircle(const b2Vec2 &center, float radius, const b2Ve
 
 void DebugB2Draw::DrawSegment(const b2Vec2 &p1, const b2Vec2 &p2, const b2Color &color) {
     sf::VertexArray segment(sf::Lines);
-    segment.append(sf::Vertex(physics::b2Tosf(p1),physics::b2Tosf(color)));
-    segment.append(sf::Vertex(physics::b2Tosf(p2),physics::b2Tosf(color)));
+    segment.append(sf::Vertex(physics::b2Tosf(p1), physics::b2Tosf(color)));
+    segment.append(sf::Vertex(physics::b2Tosf(p2), physics::b2Tosf(color)));
     window->draw(segment);
 }
 
 void DebugB2Draw::DrawTransform(const b2Transform &xf) {
-
+    // Not required
 }
 
 void DebugB2Draw::DrawPoint(const b2Vec2 &p, float size, const b2Color &color) {

@@ -12,9 +12,15 @@
 class Player;
 
 class PlayerState {
+protected:
+    PlayerState *nextState;
 public:
     virtual ~PlayerState() = default;
-    virtual void handleInput(Player& player, sf::Keyboard::Key key, bool isPressed) = 0;
-    virtual std::unique_ptr<PlayerState> update(Player& player, sf::Time deltaTime) = 0;
+
+    virtual void handleInput(Player &player, sf::Keyboard::Key key, bool isPressed) = 0;
+
+    virtual PlayerState *update(Player &player, sf::Time deltaTime) {
+        return nextState;
+    };
 };
 
