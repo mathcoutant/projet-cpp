@@ -9,6 +9,7 @@ class Player : public Entity {
     std::unique_ptr<PlayerState> state;
 public:
     int health = 3;
+    int coins = 0;
 
     explicit Player();
 

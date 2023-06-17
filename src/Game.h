@@ -19,11 +19,13 @@ class Game {
 
     sf::RectangleShape hBarBG = sf::RectangleShape(sf::Vector2f(500, 50));
     sf::RectangleShape hBar = sf::RectangleShape(sf::Vector2f(500, 50));;
+    sf::Text coinsText;
+    sf::Font font;
 
     void update(sf::Time deltaTime);
 
     void render();
-    void renderHBar();
+    void renderUI();
 
     void handleEvent();
 

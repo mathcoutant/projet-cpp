@@ -46,8 +46,12 @@ Game::Game() : debugB2Draw(window) {
 
     hBarBG.setFillColor(sf::Color(0, 0, 0));
     hBar.setFillColor(sf::Color(255, 0, 0));
-
     hBarBG.setPosition((window.getSize().x - hBarBG.getSize().x) / 2, window.getSize().y - 100);
+    font.loadFromFile("resources/images/tilemap/TheConfessionRegular.ttf");
+    coinsText.setFont(font);
+    coinsText.setCharacterSize(50);
+    coinsText.setFillColor(sf::Color::Black);
+    coinsText.setStyle(sf::Text::Bold);
 }
 
 void Game::run() {
@@ -96,12 +100,12 @@ void Game::render() {
     window.clear(sf::Color::White);
     window.draw(*player);
     window.draw(*enemy);
-    renderHBar();
+    renderUI();
     PhysicWorld::GetInstance()->DebugDraw();
     window.display();
 }
 
-void Game::renderHBar() {
+void Game::renderUI() {
     if (player->health == 0) {
         hBar.setSize(sf::Vector2f(0, 50));
     }
@@ -110,6 +114,10 @@ void Game::renderHBar() {
     }
     hBar.setPosition((window.getSize().x - hBarBG.getSize().x) / 2, window.getSize().y - 100);
 
+    coinsText.setString(" x " + std::to_string(player->coins));
+    coinsText.setPosition(300, window.getSize().y - 110);
+
     window.draw(hBarBG);
     window.draw(hBar);
+    window.draw(coinsText);
 }
