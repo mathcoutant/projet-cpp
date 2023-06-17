@@ -11,7 +11,7 @@ public:
     int health = 3;
     int coins = 0;
 
-    explicit Player();
+    explicit Player(const sf::Texture& texture);
 
     void handleInput(sf::Keyboard::Key key, bool isPressed);
     void takeDamage();

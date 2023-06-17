@@ -20,7 +20,6 @@ class Entity : public sf::Drawable, public sf::Transformable {
 protected:
 
     sf::Sprite sprite;
-    sf::Texture texture;
     sf::Vector2f moveDirection = sf::Vector2f(0.f, 0.f);
     std::unique_ptr<b2Body, physics::b2BodyDeleter> body;
 

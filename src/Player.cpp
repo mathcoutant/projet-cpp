@@ -1,10 +1,9 @@
 #include "Player.h"
 #include <iostream>
 
-Player::Player() : Entity() {
+Player::Player(const sf::Texture& texture) : Entity() {
     type = EntityType::PLAYER;
     state = std::make_unique<MoveState>(MoveState());
-    texture.loadFromFile("resources/images/tilemap/raider.png");
     sprite.setTexture(texture);
     sprite.setScale(4.f, 4.f);
     sf::FloatRect boundingBox = sprite.getGlobalBounds();

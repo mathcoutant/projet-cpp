@@ -12,6 +12,17 @@
 Game::Game() : debugB2Draw(window) {
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
+
+    playerTexture.loadFromFile("resources/images/tilemap/raider.png");
+    enemyTexture.loadFromFile("resources/images/tilemap/fantome.png");
+
+    player = std::make_unique<Player>(playerTexture);
+    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture));
+    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture));
+    for (const auto& enemy : enemies) {
+        enemy->setSpeed(100.f);
+    }
+
     player->setSpeed(500.f);
 
     b2Body *body;
@@ -39,7 +50,6 @@ Game::Game() : debugB2Draw(window) {
     debugB2Draw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit |
                          b2Draw::e_centerOfMassBit);
     PhysicWorld::GetInstance()->SetDebugDraw(&debugB2Draw);
-    enemy->setSpeed(100.f);
 
     ContactListener* contactListener = new ContactListener();
     PhysicWorld::GetInstance()->SetContactListener(contactListener);
@@ -94,12 +104,17 @@ void Game::handleEvent() {
 void Game::update(sf::Time deltaTime) {
     PhysicWorld::GetInstance()->Step(timePerFrame.asSeconds(), 6, 2);
     player->update(deltaTime);
-    enemy->update(deltaTime);}
+    for (const auto& enemy : enemies) {
+        enemy->update(deltaTime);
+    }
+}
 
 void Game::render() {
     window.clear(sf::Color::White);
     window.draw(*player);
-    window.draw(*enemy);
+    for (const auto& enemy : enemies) {
+        window.draw(*enemy);
+    }
     renderUI();
     PhysicWorld::GetInstance()->DebugDraw();
     window.display();

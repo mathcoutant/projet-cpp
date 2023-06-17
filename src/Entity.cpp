@@ -11,8 +11,8 @@ void Entity::update(sf::Time deltaTime) {
 
 Entity::Entity() = default;
 
-void Entity::setSpeed(float speed) {
-    this->speed = speed;
+void Entity::setSpeed(float s) {
+    speed = s;
 }
 
 void Entity::setVelocity(sf::Vector2f v) {

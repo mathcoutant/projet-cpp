@@ -11,10 +11,13 @@
 #include <vector>
 
 class Game {
+    sf::Texture playerTexture;
+    sf::Texture enemyTexture;
+
     sf::Time timePerFrame = sf::seconds(1.f / 60.f);
     sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(1920, 1080), "projet cpp", sf::Style::Fullscreen);
-    std::unique_ptr<Player> player = std::unique_ptr<Player>(new Player());
-    std::unique_ptr<Enemy> enemy = std::unique_ptr<Enemy>(new Enemy(*player));
+    std::unique_ptr<Player> player;
+    std::vector<std::unique_ptr<Enemy>> enemies;
     DebugB2Draw debugB2Draw;
 
     sf::RectangleShape hBarBG = sf::RectangleShape(sf::Vector2f(500, 50));

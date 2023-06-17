@@ -1,8 +1,7 @@
 #include "Enemy.h"
 
-Enemy::Enemy(Player &p) : Entity(), player(p) {
+Enemy::Enemy(Player &p, const sf::Texture& texture) : Entity(), player(p) {
     type = EntityType::ENEMY;
-    texture.loadFromFile("resources/images/tilemap/fantome.png");
     sprite.setTexture(texture);
     sprite.setScale(4.f, 4.f);
     sf::FloatRect boundingBox = sprite.getGlobalBounds();

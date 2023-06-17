@@ -6,7 +6,7 @@
 class Enemy : public Entity {
 
 public:
-    explicit Enemy(Player &p);
+    explicit Enemy(Player &p, const sf::Texture& texture);
 
     void update(sf::Time deltaTime) override;
 
