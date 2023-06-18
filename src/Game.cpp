@@ -7,8 +7,17 @@
 #include "Game.h"
 #include "SFML/System/Clock.hpp"
 #include "PhysicWorld.h"
+#include "tmxlite/Map.hpp"
+#include "SFMLOrthogonalLayer.h"
 
 Game::Game() : debugB2Draw(window) {
+
+    tmx::Map map;
+    map.load("resources/tilemap.tmx");
+
+    tilemap = std::make_unique<MapLayer>(map,0);
+
+
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
 
@@ -26,28 +35,6 @@ Game::Game() : debugB2Draw(window) {
     }
 
     player->setSpeed(500.f);
-
-    b2Body *body;
-    b2BodyDef bodyDef;
-    bodyDef.position = physics::sfTob2(sf::Vector2f(500.f, 500.f));
-    bodyDef.angle = 0.f;
-    bodyDef.allowSleep = true;
-    bodyDef.fixedRotation = false;
-    bodyDef.gravityScale = 1.f;
-    bodyDef.type = b2_staticBody;
-    body = PhysicWorld::GetInstance()->CreateBody(&bodyDef);
-
-    b2PolygonShape boxShape;
-
-    boxShape.SetAsBox(20.f / physics::SCALE, 500.f / physics::SCALE);
-    //create a fixture and provide the shape to the body
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &boxShape;
-    fixtureDef.isSensor = false;
-    fixtureDef.density = 1.f;
-    fixtureDef.friction = 0.1f;
-    fixtureDef.restitution = 0.1f;
-    body->CreateFixture(&fixtureDef);
 
     debugB2Draw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit |
                          b2Draw::e_centerOfMassBit);
@@ -117,6 +104,7 @@ void Game::update(sf::Time deltaTime) {
 
 void Game::render() {
     window.clear(sf::Color::White);
+    window.draw(*tilemap);
     window.draw(*grave);
 
 
@@ -146,4 +134,11 @@ void Game::renderUI() {
     window.draw(hBarBG);
     window.draw(hBar);
     window.draw(coinsText);
+}
+
+Game::~Game() {
+    player.reset();
+    enemies.erase(enemies.begin(),enemies.end());
+    coins.erase(coins.begin(),coins.end());
+    grave.reset();
 }

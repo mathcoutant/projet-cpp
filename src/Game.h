@@ -9,6 +9,7 @@
 #include "DebugB2Draw.h"
 #include "Enemy.h"
 #include "ContactListener.h"
+#include "SFMLOrthogonalLayer.h"
 #include <vector>
 
 class Game {
@@ -25,6 +26,8 @@ class Game {
     std::unique_ptr<Grave> grave;
     std::unique_ptr<ContactListener> contactListener = std::make_unique<ContactListener>();
     DebugB2Draw debugB2Draw;
+
+    std::unique_ptr<MapLayer> tilemap;
 
     sf::RectangleShape hBarBG = sf::RectangleShape(sf::Vector2f(500, 50));
     sf::RectangleShape hBar = sf::RectangleShape(sf::Vector2f(500, 50));;
@@ -43,4 +46,5 @@ public:
     void run();
 
     Game();
+    ~Game();
 };
