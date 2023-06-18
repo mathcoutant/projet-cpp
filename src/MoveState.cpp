@@ -29,7 +29,7 @@ void MoveState::handleInput(Player &player, sf::Keyboard::Key key, bool isPresse
     if (key == sf::Keyboard::Space && isPressed) {
         Grave *grave = player.getGrave();
         if (grave != nullptr) {
-            if(!grave->isDigged()) {
+            if (!grave->isDigged()) {
                 player.setVelocity(sf::Vector2f(0.f, 0.f));
                 nextState = new DigState(grave);
             }

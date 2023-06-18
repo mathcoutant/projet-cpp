@@ -30,7 +30,8 @@ namespace physics {
     }
 
     inline sf::Color b2Tosf(b2Color c) {
-        return { static_cast<sf::Uint8>(c.r * 255), static_cast<sf::Uint8>(c.g * 255), static_cast<sf::Uint8>(c.b * 255), static_cast<sf::Uint8>(c.a * 255)};
+        return {static_cast<sf::Uint8>(c.r * 255), static_cast<sf::Uint8>(c.g * 255), static_cast<sf::Uint8>(c.b * 255),
+                static_cast<sf::Uint8>(c.a * 255)};
     }
 
     inline b2Vec2 sfTob2(sf::Vector2f v) {

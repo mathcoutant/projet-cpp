@@ -64,6 +64,6 @@ void Player::collectCoin(Coin *coin) {
     coin->collect();
 }
 
-PlayerState* Player::getState() {
+PlayerState *Player::getState() {
     return state.get();
 }

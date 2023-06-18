@@ -61,6 +61,7 @@ public:
     void run();
 
     Game();
+
     /// The destructor of the Game class. We need a destructor to ensure we destroy entities (destroying their rigidbody)
     /// before destroying the contactListener.
     ~Game();

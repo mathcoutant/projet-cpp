@@ -53,7 +53,8 @@ void ContactListener::EndContact(b2Contact *contact) {
     auto e1 = (Entity *) (b1->GetUserData().pointer);
     auto e2 = (Entity *) (b2->GetUserData().pointer);
 
-    using enum EntityType;
+    using
+    enum EntityType;
     if (e1 && e2) {
         if (e1->type == PLAYER && e2->type == GRAVE) {
             ((Player *) e1)->setGrave(nullptr);

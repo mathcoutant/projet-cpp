@@ -1,9 +1,9 @@
 #include "Enemy.h"
 
 Enemy::Enemy(Player &p, const sf::Texture &texture, float x, float y) :
-    Entity(texture, x, y),
-    player(p),
-    initPosition(x,y) {
+        Entity(texture, x, y),
+        player(p),
+        initPosition(x, y) {
     type = EntityType::ENEMY;
     sprite.setScale(4.f, 4.f);
     sf::FloatRect boundingBox = sprite.getGlobalBounds();
@@ -32,7 +32,7 @@ Enemy::Enemy(Player &p, const sf::Texture &texture, float x, float y) :
 }
 
 void Enemy::update(sf::Time deltaTime) {
-    if(respawnFlag) {
+    if (respawnFlag) {
         body->SetTransform(physics::sfTob2(initPosition), 0);
         respawnFlag = false;
     }

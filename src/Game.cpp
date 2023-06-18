@@ -15,7 +15,7 @@ Game::Game() : debugB2Draw(window) {
     tmx::Map map;
     map.load("resources/tilemap.tmx");
 
-    tilemap = std::make_unique<MapLayer>(map,0);
+    tilemap = std::make_unique<MapLayer>(map, 0);
 
 
     window.setFramerateLimit(60);
@@ -80,7 +80,7 @@ void Game::update(sf::Time deltaTime) {
     coins.erase(std::remove_if(coins.begin(), coins.end(), [](auto &c) -> bool { return c->collected; }), coins.end());
     PhysicWorld::GetInstance()->Step(timePerFrame.asSeconds(), 6, 2);
     player->update(deltaTime);
-    for(const auto &g: graves) {
+    for (const auto &g: graves) {
         g->update(deltaTime);
     }
     for (const auto &c: coins) {
@@ -95,7 +95,7 @@ void Game::render() {
     window.clear(sf::Color::White);
     window.draw(*tilemap);
 
-    for(const auto &g: graves){
+    for (const auto &g: graves) {
         window.draw(*g);
     }
 
@@ -140,9 +140,9 @@ void Game::renderUI() {
 
 Game::~Game() {
     player.reset();
-    enemies.erase(enemies.begin(),enemies.end());
-    coins.erase(coins.begin(),coins.end());
-    graves.erase(graves.begin(),graves.end());
+    enemies.erase(enemies.begin(), enemies.end());
+    coins.erase(coins.begin(), coins.end());
+    graves.erase(graves.begin(), graves.end());
 }
 
 void Game::loadTextures() {
@@ -159,11 +159,11 @@ void Game::settingUpEntities() {
     enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 1920, 0));
     enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 0, 1080));
     enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 1920, 1080));
-    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 500, 500, coins));
-    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 1600, 900, coins));
-    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 900, 500, coins));
-    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 200, 500, coins));
-    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 1600, 200, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture, diggedGraveTexture, coinTexture, 500, 500, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture, diggedGraveTexture, coinTexture, 1600, 900, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture, diggedGraveTexture, coinTexture, 900, 500, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture, diggedGraveTexture, coinTexture, 200, 500, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture, diggedGraveTexture, coinTexture, 1600, 200, coins));
     for (const auto &enemy: enemies) {
         enemy->setSpeed(100.f);
     }

@@ -191,7 +191,7 @@ private:
             b2BodyDef bodyDef;
             b2FixtureDef fixtureDef;
             b2PolygonShape shape;
-            shape.SetAsBox(physics::sfTob2(32.f),physics::sfTob2(32.f));
+            shape.SetAsBox(physics::sfTob2(32.f), physics::sfTob2(32.f));
             fixtureDef.shape = &shape;
             bodyDef.type = b2_staticBody;
             for (const auto &ca: m_chunkArrays) {
@@ -246,9 +246,11 @@ private:
 
                             auto properties = ca->ts.getTiles()[idIndex].properties;
                             auto it = std::ranges::find_if(properties,
-                                      [](const tmx::Property& p) {return p.getName() == "collision";});
-                            if(it != properties.end()) {
-                                if(it->getBoolValue()) {
+                                                           [](const tmx::Property &p) {
+                                                               return p.getName() == "collision";
+                                                           });
+                            if (it != properties.end()) {
+                                if (it->getBoolValue()) {
                                     bodyDef.position = physics::sfTob2(
                                             tileOffset - getPosition() +
                                             sf::Vector2f(xPos * ca->tileSetSize.x + ca->tileSetSize.x / 2,
