@@ -28,4 +28,6 @@ public:
     Grave *getGrave();
 
     void collectCoin(Coin *Coin);
+    
+    PlayerState* getState();
 };
