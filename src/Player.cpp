@@ -66,6 +66,7 @@ Grave *Player::getGrave() {
 }
 
 void Player::collectCoin(Coin *coin) {
+    coins++;
     coin->collect();
 }
 
