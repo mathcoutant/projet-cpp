@@ -44,7 +44,6 @@ void Player::update(sf::Time deltaTime) {
 }
 
 void Player::takeDamage() {
-    std::cout << health << "\n";
     health--;
     if (health <= 0) {
         health = 0;
@@ -54,11 +53,6 @@ void Player::takeDamage() {
 
 void Player::setGrave(Grave *grave) {
     this->grave = grave;
-    if (grave != nullptr) {
-        std::cout << "on grave" << std::endl;
-    } else {
-        std::cout << "not on grave" << std::endl;
-    }
 }
 
 Grave *Player::getGrave() {

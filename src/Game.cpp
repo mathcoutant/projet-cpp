@@ -21,34 +21,12 @@ Game::Game() : debugB2Draw(window) {
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
 
-    playerTexture.loadFromFile("resources/images/raider.png");
-    coinTexture.loadFromFile("resources/images/coin.png");
-    enemyTexture.loadFromFile("resources/images/fantome.png");
-    graveTexture.loadFromFile("resources/images/tomb.png");
-    diggedGraveTexture.loadFromFile("resources/images/tomb_2.png");
-
-    coinSprite.setTexture(coinTexture);
-
-    player = std::make_unique<Player>(playerTexture, 200, 200);
-    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 0, 0));
-    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 1920, 0));
-    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 0, 1080));
-    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 1920, 1080));
-    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 500, 500, coins));
-    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 1600, 900, coins));
-    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 900, 500, coins));
-    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 200, 500, coins));
-    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 1600, 200, coins));
-    for (const auto &enemy: enemies) {
-        enemy->setSpeed(100.f);
-    }
-
-    player->setSpeed(500.f);
+    loadTextures();
+    settingUpEntities();
 
     debugB2Draw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit |
                          b2Draw::e_centerOfMassBit);
     PhysicWorld::GetInstance()->SetDebugDraw(&debugB2Draw);
-
     PhysicWorld::GetInstance()->SetContactListener(contactListener.get());
 
     hBarBG.setFillColor(sf::Color(0, 0, 0));
@@ -59,6 +37,7 @@ Game::Game() : debugB2Draw(window) {
     coinsText.setCharacterSize(50);
     coinsText.setFillColor(sf::Color::White);
     coinsText.setStyle(sf::Text::Bold);
+    coinSprite.setTexture(coinTexture);
 }
 
 void Game::run() {
@@ -77,7 +56,6 @@ void Game::run() {
 
     }
 }
-
 
 void Game::handleEvent() {
     sf::Event event;
@@ -130,13 +108,18 @@ void Game::render() {
     }
     window.draw(*player);
     renderUI();
-    PhysicWorld::GetInstance()->DebugDraw();
+    //PhysicWorld::GetInstance()->DebugDraw();
     window.display();
 }
 
 void Game::renderUI() {
     if (player->health == 0) {
         hBar.setSize(sf::Vector2f(0, 50));
+        window.draw(hBarBG);
+        window.draw(hBar);
+        window.display();
+        sf::sleep(sf::seconds(2));
+        window.close();
     } else {
         hBar.setSize(sf::Vector2f(500.f * (player->health / 3.f), 50));
     }
@@ -154,9 +137,35 @@ void Game::renderUI() {
     window.draw(coinSprite);
 }
 
+
 Game::~Game() {
     player.reset();
     enemies.erase(enemies.begin(),enemies.end());
     coins.erase(coins.begin(),coins.end());
     graves.erase(graves.begin(),graves.end());
+}
+
+void Game::loadTextures() {
+    playerTexture.loadFromFile("resources/images/raider.png");
+    coinTexture.loadFromFile("resources/images/coin.png");
+    enemyTexture.loadFromFile("resources/images/fantome.png");
+    graveTexture.loadFromFile("resources/images/tomb.png");
+    diggedGraveTexture.loadFromFile("resources/images/tomb_2.png");
+}
+
+void Game::settingUpEntities() {
+    player = std::make_unique<Player>(playerTexture, 200, 200);
+    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 0, 0));
+    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 1920, 0));
+    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 0, 1080));
+    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 1920, 1080));
+    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 500, 500, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 1600, 900, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 900, 500, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 200, 500, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 1600, 200, coins));
+    for (const auto &enemy: enemies) {
+        enemy->setSpeed(100.f);
+    }
+    player->setSpeed(500.f);
 }
