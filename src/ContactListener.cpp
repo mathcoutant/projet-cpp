@@ -19,9 +19,11 @@ void ContactListener::BeginContact(b2Contact *contact) {
     if (e1 && e2) {
         if (e1->type == PLAYER && e2->type == ENEMY) {
             ((Player *) e1)->takeDamage();
+            ((Enemy *) e2)->respawn();
         }
         if (e1->type == ENEMY && e2->type == PLAYER) {
             ((Player *) e2)->takeDamage();
+            ((Enemy *) e1)->respawn();
         }
         if (e1->type == PLAYER && e2->type == GRAVE) {
             ((Player *) e1)->setGrave((Grave *) e2);

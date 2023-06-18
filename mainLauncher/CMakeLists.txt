@@ -17,5 +17,8 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/resources
         ${CMAKE_CURRENT_BINARY_DIR}/resources
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${RESOURCES_TILEMAP}
-        ${CMAKE_CURRENT_BINARY_DIR}/resources/images/tilemap)
+        ${CMAKE_CURRENT_BINARY_DIR}/resources/images/tilemap
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${RESOURCES_IMAGE}
+        ${CMAKE_CURRENT_BINARY_DIR}/resources/images)
 add_dependencies(mainLauncher copy-resources)

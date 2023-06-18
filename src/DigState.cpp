@@ -9,6 +9,7 @@
 
 void DigState::handleInput(Player &player, sf::Keyboard::Key key, bool isPressed) {
     if (key == sf::Keyboard::BackSpace && isPressed) {
+        grave->setDigged();
         nextState = new MoveState();
     }
 
