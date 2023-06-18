@@ -38,7 +38,7 @@ void Player::handleInput(sf::Keyboard::Key key, bool isPressed) {
 }
 
 void Player::update(sf::Time deltaTime) {
-    if (PlayerState *nextState = state->update(*this, deltaTime); nextState)
+    if (PlayerState *nextState = state->update(*this, deltaTime); nextState != nullptr)
         state.reset(nextState);
     Entity::update(deltaTime);
 }

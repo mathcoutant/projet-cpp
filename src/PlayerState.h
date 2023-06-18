@@ -13,7 +13,7 @@ class Player;
 
 class PlayerState {
 protected:
-    PlayerState *nextState;
+    PlayerState *nextState = nullptr;
 public:
     virtual ~PlayerState() = default;
 
