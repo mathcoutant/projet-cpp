@@ -16,6 +16,7 @@ Game::Game() : debugB2Draw(window) {
     coinTexture.loadFromFile("resources/images/tilemap/coin.png");
     enemyTexture.loadFromFile("resources/images/tilemap/fantome.png");
     graveTexture.loadFromFile("resources/images/tilemap/test_texture.png");
+    coinSprite.setTexture(coinTexture);
 
     player = std::make_unique<Player>(playerTexture, 200, 200);
     enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 900, 900));
@@ -143,7 +144,11 @@ void Game::renderUI() {
     coinsText.setString(" x " + std::to_string(player->coins));
     coinsText.setPosition(300, window.getSize().y - 110);
 
+    coinSprite.setPosition(250, window.getSize().y - 110);
+    coinSprite.setScale(sf::Vector2f(4.f, 4.f));
+
     window.draw(hBarBG);
     window.draw(hBar);
     window.draw(coinsText);
+    window.draw(coinSprite);
 }

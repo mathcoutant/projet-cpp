@@ -16,6 +16,7 @@ class Game {
     sf::Texture enemyTexture;
     sf::Texture coinTexture;
     sf::Texture graveTexture;
+    sf::Sprite coinSprite;
 
     sf::Time timePerFrame = sf::seconds(1.f / 60.f);
     sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(1920, 1080), "projet cpp", sf::Style::Fullscreen);
