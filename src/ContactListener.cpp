@@ -14,6 +14,9 @@ void ContactListener::BeginContact(b2Contact *contact) {
 
     using
     enum EntityType;
+
+    // We get the userData of the physic bodies, it's a pointer to the Entity that own the body.
+    // By doing so, we can act on the entity according to what it is.
     auto e1 = (Entity *) (b1->GetUserData().pointer);
     auto e2 = (Entity *) (b2->GetUserData().pointer);
     if (e1 && e2) {

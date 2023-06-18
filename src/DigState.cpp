@@ -14,7 +14,6 @@ void DigState::handleInput(Player &player, sf::Keyboard::Key key, bool isPressed
     }
 
     if (key == sf::Keyboard::Space && isPressed) {
-        std::cout << "Dig dig dig" << std::endl;
         grave->dig();
     }
 }

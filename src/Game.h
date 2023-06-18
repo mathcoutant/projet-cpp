@@ -36,17 +36,32 @@ class Game {
     sf::Text coinsText;
     sf::Font font;
 
+    /// @param deltaTime the time between this update and the previous update.
+    /// Update the state of the game, by first updating the physic simulation and then updating each entities.
     void update(sf::Time deltaTime);
 
+    /// Render the state of the game on screen
     void render();
 
+    // Render the UI on screen
     void renderUI();
 
+    /// Handle SFML windows and keyboards events.
+    /// When receiving a keyboard event, it is send to the Player.
     void handleEvent();
 
+    /// load all textures
+    void loadTextures();
+
+    /// Instantiate entities of the game (Player, ennemies and grave)
+    void settingUpEntities();
+
 public:
+    /// Run the game.
     void run();
 
     Game();
+    /// The destructor of the Game class. We need a destructor to ensure we destroy entities (destroying their rigidbody)
+    /// before destroying the contactListener.
     ~Game();
 };

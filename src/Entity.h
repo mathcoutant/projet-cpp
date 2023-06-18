@@ -28,6 +28,7 @@ protected:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 public:
+    /// This is used to be able to downcast entities in the contactListener class.
     EntityType type;
 
     ~Entity() override;

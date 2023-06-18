@@ -3,7 +3,7 @@
  <tileset firstgid="1" source="images/tilemap/tileset.tsx"/>
  <layer id="1" name="Calque de Tuiles 1" width="30" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYAJiRjpiJiSanhjdfnr6ddRe7GpJjTtq2UuqX0btxW4vtrxFSrzhSgfk+pfaaX3UXtL0EhP/lMQvsW4n196BqI9GEqa33wcqzGH2AQCtpwLd
+   eJxjZGBgYBwgzERnjGwvPf04ai/l8U9te0n1y6i92O3FlrdIiTdc6YBc/1I7rY/aS5peYuKfkvgl1u3k2jsQ9dEoHr4YAI4vAtI=
   </data>
  </layer>
 </map>
