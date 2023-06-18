@@ -10,6 +10,10 @@ public:
 
     void update(sf::Time deltaTime) override;
 
+    void respawn();
+
 private:
     Player &player;
+    bool respawnFlag = false;
+    sf::Vector2f initPosition;
 };

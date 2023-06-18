@@ -9,7 +9,7 @@
 
 class Player : public Entity {
     std::unique_ptr<PlayerState> state;
-    Grave *grave;
+    Grave *grave = nullptr;
 
 public:
     int health = 3;

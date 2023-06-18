@@ -4,10 +4,11 @@
 
 #include "Grave.h"
 
-Grave::Grave(const sf::Texture &graveTexture, sf::Texture &coinTexture, float x, float y,
+Grave::Grave(const sf::Texture &graveTexture,sf::Texture &diggedTexture, sf::Texture &coinTexture, float x, float y,
              std::vector<std::unique_ptr<Coin>> &coins) :
-        Entity(graveTexture, x, y), coins(&coins), coinTexture(coinTexture) {
+        Entity(graveTexture, x, y), coins(&coins), diggedTexture(diggedTexture), coinTexture(coinTexture) {
     type = EntityType::GRAVE;
+    sprite.setScale(4.f,4.f);
     sf::FloatRect boundingBox = sprite.getGlobalBounds();
     sf::FloatRect localBoundingBox = sprite.getLocalBounds();
     sprite.setOrigin(localBoundingBox.width / 2, localBoundingBox.height / 2);
@@ -36,4 +37,13 @@ void Grave::dig() {
     float x = getPosition().x;
     float y = getPosition().y;
     coins->push_back(std::make_unique<Coin>(coinTexture, x, y));
+}
+
+bool Grave::isDigged(){
+    return digged;
+}
+
+void Grave::setDigged() {
+    sprite.setTexture(diggedTexture);
+    digged = true;
 }

@@ -51,6 +51,10 @@ are implemented.
 #include <iostream>
 #include <cmath>
 
+#include <box2d/box2d.h>
+#include <PhysicWorld.h>
+#include "PhysicsUtil.h"
+
 
 class MapLayer final : public sf::Drawable {
 public:
@@ -164,7 +168,9 @@ private:
                     continue;
                 }
                 m_chunkArrays.emplace_back(std::make_unique<ChunkArray>(*tr.find(ts->getImagePath())->second, *ts));
+
             }
+
             std::size_t xPos = static_cast<std::size_t>(position.x / tileSize.x);
             std::size_t yPos = static_cast<std::size_t>(position.y / tileSize.y);
             for (auto y = yPos; y < yPos + tileCount.y; ++y) {
@@ -172,6 +178,7 @@ private:
                     auto idx = (y * rowSize + x);
                     m_chunkTileIDs.emplace_back(tileIDs[idx]);
                     m_chunkColors.emplace_back(vertColour);
+
                 }
             }
             generateTiles(true);
@@ -181,6 +188,12 @@ private:
             if (registerAnimation) {
                 m_activeAnimations.clear();
             }
+            b2BodyDef bodyDef;
+            b2FixtureDef fixtureDef;
+            b2PolygonShape shape;
+            shape.SetAsBox(physics::sfTob2(32.f),physics::sfTob2(32.f));
+            fixtureDef.shape = &shape;
+            bodyDef.type = b2_staticBody;
             for (const auto &ca: m_chunkArrays) {
                 sf::Uint32 idx = 0;
                 std::size_t xPos = static_cast<std::size_t>(getPosition().x / mapTileSize.x);
@@ -230,10 +243,27 @@ private:
                                             sf::Vertex(tileOffset - getPosition() + sf::Vector2f(ca->tileSetSize.x, ca->tileSetSize.y), m_chunkColors[idx], tileIndex + sf::Vector2f(ca->tileSetSize.x, ca->tileSetSize.y))
 #endif
                                     };
+
+                            auto properties = ca->ts.getTiles()[idIndex].properties;
+                            auto it = std::ranges::find_if(properties,
+                                      [](const tmx::Property& p) {return p.getName() == "collision";});
+                            if(it != properties.end()) {
+                                if(it->getBoolValue()) {
+                                    bodyDef.position = physics::sfTob2(
+                                            tileOffset - getPosition() +
+                                            sf::Vector2f(xPos * ca->tileSetSize.x + ca->tileSetSize.x / 2,
+                                                         yPos * ca->tileSetSize.y + ca->tileSetSize.y / 2)
+                                    );
+                                    b2Body *body = PhysicWorld::GetInstance()->CreateBody(&bodyDef);
+                                    body->CreateFixture(&fixtureDef);
+                                }
+                            }
+
                             doFlips(m_chunkTileIDs[idx].flipFlags, &tile[0].texCoords, &tile[1].texCoords,
                                     &tile[2].texCoords, &tile[3].texCoords);
                             ca->addTile(tile);
                         }
+
                         idx++;
                     }
                 }
@@ -369,12 +399,14 @@ private:
         class ChunkArray final : public sf::Drawable {
         public:
             using Ptr = std::unique_ptr<ChunkArray>;
+            tmx::Tileset ts;
             tmx::Vector2u tileSetSize;
             sf::Vector2u tsTileCount;
             std::uint32_t m_firstGID, m_lastGID;
 
             explicit ChunkArray(const sf::Texture &t, const tmx::Tileset &ts)
-                    : m_texture(t) {
+                    : m_texture(t),
+                      ts(ts) {
                 auto texSize = getTextureSize();
                 tileSetSize = ts.getTileSize();
                 tsTileCount.x = texSize.x / tileSetSize.x;

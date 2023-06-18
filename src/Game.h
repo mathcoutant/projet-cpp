@@ -9,6 +9,7 @@
 #include "DebugB2Draw.h"
 #include "Enemy.h"
 #include "ContactListener.h"
+#include "SFMLOrthogonalLayer.h"
 #include <vector>
 
 class Game {
@@ -16,6 +17,7 @@ class Game {
     sf::Texture enemyTexture;
     sf::Texture coinTexture;
     sf::Texture graveTexture;
+    sf::Texture diggedGraveTexture;
     sf::Sprite coinSprite;
 
     sf::Time timePerFrame = sf::seconds(1.f / 60.f);
@@ -23,9 +25,11 @@ class Game {
     std::unique_ptr<Player> player;
     std::vector<std::unique_ptr<Enemy>> enemies;
     std::vector<std::unique_ptr<Coin>> coins;
-    std::unique_ptr<Grave> grave;
+    std::vector<std::unique_ptr<Grave>> graves;
     std::unique_ptr<ContactListener> contactListener = std::make_unique<ContactListener>();
     DebugB2Draw debugB2Draw;
+
+    std::unique_ptr<MapLayer> tilemap;
 
     sf::RectangleShape hBarBG = sf::RectangleShape(sf::Vector2f(500, 50));
     sf::RectangleShape hBar = sf::RectangleShape(sf::Vector2f(500, 50));;
@@ -44,4 +48,5 @@ public:
     void run();
 
     Game();
+    ~Game();
 };

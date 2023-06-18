@@ -7,48 +7,43 @@
 #include "Game.h"
 #include "SFML/System/Clock.hpp"
 #include "PhysicWorld.h"
+#include "tmxlite/Map.hpp"
+#include "SFMLOrthogonalLayer.h"
 
 Game::Game() : debugB2Draw(window) {
+
+    tmx::Map map;
+    map.load("resources/tilemap.tmx");
+
+    tilemap = std::make_unique<MapLayer>(map,0);
+
+
     window.setFramerateLimit(60);
     window.setVerticalSyncEnabled(true);
 
-    playerTexture.loadFromFile("resources/images/tilemap/raider.png");
-    coinTexture.loadFromFile("resources/images/tilemap/coin.png");
-    enemyTexture.loadFromFile("resources/images/tilemap/fantome.png");
-    graveTexture.loadFromFile("resources/images/tilemap/test_texture.png");
+    playerTexture.loadFromFile("resources/images/raider.png");
+    coinTexture.loadFromFile("resources/images/coin.png");
+    enemyTexture.loadFromFile("resources/images/fantome.png");
+    graveTexture.loadFromFile("resources/images/tomb.png");
+    diggedGraveTexture.loadFromFile("resources/images/tomb_2.png");
+
     coinSprite.setTexture(coinTexture);
 
     player = std::make_unique<Player>(playerTexture, 200, 200);
-    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 900, 900));
-    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 0, 900));
-    grave = std::make_unique<Grave>(graveTexture, coinTexture, 500, 500, coins);
+    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 0, 0));
+    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 1920, 0));
+    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 0, 1080));
+    enemies.push_back(std::make_unique<Enemy>(*player, enemyTexture, 1920, 1080));
+    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 500, 500, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 1600, 900, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 900, 500, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 200, 500, coins));
+    graves.push_back(std::make_unique<Grave>(graveTexture,diggedGraveTexture, coinTexture, 1600, 200, coins));
     for (const auto &enemy: enemies) {
         enemy->setSpeed(100.f);
     }
 
     player->setSpeed(500.f);
-
-    b2Body *body;
-    b2BodyDef bodyDef;
-    bodyDef.position = physics::sfTob2(sf::Vector2f(500.f, 500.f));
-    bodyDef.angle = 0.f;
-    bodyDef.allowSleep = true;
-    bodyDef.fixedRotation = false;
-    bodyDef.gravityScale = 1.f;
-    bodyDef.type = b2_staticBody;
-    body = PhysicWorld::GetInstance()->CreateBody(&bodyDef);
-
-    b2PolygonShape boxShape;
-
-    boxShape.SetAsBox(20.f / physics::SCALE, 500.f / physics::SCALE);
-    //create a fixture and provide the shape to the body
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &boxShape;
-    fixtureDef.isSensor = false;
-    fixtureDef.density = 1.f;
-    fixtureDef.friction = 0.1f;
-    fixtureDef.restitution = 0.1f;
-    body->CreateFixture(&fixtureDef);
 
     debugB2Draw.SetFlags(b2Draw::e_shapeBit | b2Draw::e_jointBit | b2Draw::e_aabbBit | b2Draw::e_pairBit |
                          b2Draw::e_centerOfMassBit);
@@ -59,10 +54,10 @@ Game::Game() : debugB2Draw(window) {
     hBarBG.setFillColor(sf::Color(0, 0, 0));
     hBar.setFillColor(sf::Color(255, 0, 0));
     hBarBG.setPosition((window.getSize().x - hBarBG.getSize().x) / 2, window.getSize().y - 100);
-    font.loadFromFile("resources/images/tilemap/TheConfessionRegular.ttf");
+    font.loadFromFile("resources/TheConfessionRegular.ttf");
     coinsText.setFont(font);
     coinsText.setCharacterSize(50);
-    coinsText.setFillColor(sf::Color::Black);
+    coinsText.setFillColor(sf::Color::White);
     coinsText.setStyle(sf::Text::Bold);
 }
 
@@ -107,7 +102,9 @@ void Game::update(sf::Time deltaTime) {
     coins.erase(std::remove_if(coins.begin(), coins.end(), [](auto &c) -> bool { return c->collected; }), coins.end());
     PhysicWorld::GetInstance()->Step(timePerFrame.asSeconds(), 6, 2);
     player->update(deltaTime);
-    grave->update(deltaTime);
+    for(const auto &g: graves) {
+        g->update(deltaTime);
+    }
     for (const auto &c: coins) {
         c->update(deltaTime);
     }
@@ -118,12 +115,16 @@ void Game::update(sf::Time deltaTime) {
 
 void Game::render() {
     window.clear(sf::Color::White);
-    window.draw(*grave);
+    window.draw(*tilemap);
 
+    for(const auto &g: graves){
+        window.draw(*g);
+    }
 
     for (const auto &c: coins) {
         window.draw(*c);
     }
+
     for (const auto &enemy: enemies) {
         window.draw(*enemy);
     }
@@ -151,4 +152,11 @@ void Game::renderUI() {
     window.draw(hBar);
     window.draw(coinsText);
     window.draw(coinSprite);
+}
+
+Game::~Game() {
+    player.reset();
+    enemies.erase(enemies.begin(),enemies.end());
+    coins.erase(coins.begin(),coins.end());
+    graves.erase(graves.begin(),graves.end());
 }
