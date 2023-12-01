@@ -1,27 +1,4 @@
-# Tomb Raiders (Do not steal)
+# Tomb Raiders 
+A small game made with the SFML library, using it to build a small game engine.
 
-Game Programming Pattern :
-- [ ] Machine à états 
-- [ ] Components
-- [ ] Command pattern
-
-Design Patterns : 
-- [ ] Machine à états
-- [ ] Singleton pour le joueur ?
-- [ ] Command pattern
-- [ ] Components (Surement pas nécessaire comme jeu assez simple)
-
-Classes :
-- [ ] Game
-  - classe qui encapsule la game loop et sert d'interface 
-- [ ] Entity ? 
-- [ ] Player
-- [ ] Enemy
-- [ ] Tilemap
-  - encapsulation de la classe map de tmxlite pour fonctionner avec SFML et box2D.
-  
-  ![Diagramme de classe](uml/class.png)
-
-Diagramme d'états :
-
-![Diagramme d'état du joueur](uml/State.png)
+The goal of the game is to dig as much money as you can from grave, while avoiding the deadly ghost.
